@@ -1,0 +1,927 @@
+{
+    "subeler": [
+        {
+            "isim": "Kadıköy Şubesi",
+            "il": "İstanbul",
+            "ilce": "Kadıköy",
+            "koordinat": {
+                "lat": 40.984,
+                "lon": 29.088
+            },
+            "atmSayisi": 4,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "bireysel",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Beşiktaş Şubesi",
+            "il": "İstanbul",
+            "ilce": "Beşiktaş",
+            "koordinat": {
+                "lat": 41.043,
+                "lon": 29.008
+            },
+            "atmSayisi": 6,
+            "erisilebilirlik": true,
+            "yogunluk": "yuksek",
+            "tip": "kurumsal",
+            "komsuIllerIcin": false,
+            "parkYeri": false,
+            "uzunCalismaSaatleri": false,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Kurumsal",
+                "Yatırım"
+            ]
+        },
+        {
+            "isim": "Üsküdar Şubesi",
+            "il": "İstanbul",
+            "ilce": "Üsküdar",
+            "koordinat": {
+                "lat": 41.025,
+                "lon": 29.031
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ",
+                "Yatırım"
+            ]
+        },
+        {
+            "isim": "Bakırköy Şubesi",
+            "il": "İstanbul",
+            "ilce": "Bakırköy",
+            "koordinat": {
+                "lat": 40.976,
+                "lon": 28.852
+            },
+            "atmSayisi": 5,
+            "erisilebilirlik": true,
+            "yogunluk": "yuksek",
+            "tip": "bireysel",
+            "komsuIllerIcin": false,
+            "parkYeri": false,
+            "uzunCalismaSaatleri": false,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel"
+            ]
+        },
+        {
+            "isim": "Çekmeköy Şubesi",
+            "il": "İstanbul",
+            "ilce": "Çekmeköy",
+            "koordinat": {
+                "lat": 41.022,
+                "lon": 29.231
+            },
+            "atmSayisi": 2,
+            "erisilebilirlik": false,
+            "yogunluk": "dusuk",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": false,
+            "hizmetTurleri": [
+                "Bireysel",
+                "Yatırım"
+            ]
+        },
+        {
+            "isim": "Sarıyer Şubesi",
+            "il": "İstanbul",
+            "ilce": "Sarıyer",
+            "koordinat": {
+                "lat": 41.176,
+                "lon": 29.048
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "kurumsal",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": false,
+            "kolayUlasim": false,
+            "hizmetTurleri": [
+                "Kurumsal",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Adalar Şubesi",
+            "il": "İstanbul",
+            "ilce": "Adalar",
+            "koordinat": {
+                "lat": 40.983688,
+                "lon": 28.820727
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Arnavutköy Şubesi",
+            "il": "İstanbul",
+            "ilce": "Arnavutköy",
+            "koordinat": {
+                "lat": 40.876371,
+                "lon": 29.116434
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Ataşehir Şubesi",
+            "il": "İstanbul",
+            "ilce": "Ataşehir",
+            "koordinat": {
+                "lat": 40.954609,
+                "lon": 28.899002
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Avcılar Şubesi",
+            "il": "İstanbul",
+            "ilce": "Avcılar",
+            "koordinat": {
+                "lat": 40.881471,
+                "lon": 28.974549
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Bağcılar Şubesi",
+            "il": "İstanbul",
+            "ilce": "Bağcılar",
+            "koordinat": {
+                "lat": 40.911052,
+                "lon": 28.838722
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Bahçelievler Şubesi",
+            "il": "İstanbul",
+            "ilce": "Bahçelievler",
+            "koordinat": {
+                "lat": 40.819598,
+                "lon": 28.851376
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Başakşehir Şubesi",
+            "il": "İstanbul",
+            "ilce": "Başakşehir",
+            "koordinat": {
+                "lat": 40.933618,
+                "lon": 29.07235
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Bayrampaşa Şubesi",
+            "il": "İstanbul",
+            "ilce": "Bayrampaşa",
+            "koordinat": {
+                "lat": 41.006564,
+                "lon": 29.051247
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Beykoz Şubesi",
+            "il": "İstanbul",
+            "ilce": "Beykoz",
+            "koordinat": {
+                "lat": 41.19442,
+                "lon": 29.040735
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Beylikdüzü Şubesi",
+            "il": "İstanbul",
+            "ilce": "Beylikdüzü",
+            "koordinat": {
+                "lat": 40.857681,
+                "lon": 29.106056
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Beyoğlu Şubesi",
+            "il": "İstanbul",
+            "ilce": "Beyoğlu",
+            "koordinat": {
+                "lat": 41.151259,
+                "lon": 29.13456
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Büyükçekmece Şubesi",
+            "il": "İstanbul",
+            "ilce": "Büyükçekmece",
+            "koordinat": {
+                "lat": 40.865019,
+                "lon": 29.110199
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Çatalca Şubesi",
+            "il": "İstanbul",
+            "ilce": "Çatalca",
+            "koordinat": {
+                "lat": 40.990122,
+                "lon": 29.09909
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Esenler Şubesi",
+            "il": "İstanbul",
+            "ilce": "Esenler",
+            "koordinat": {
+                "lat": 41.179279,
+                "lon": 29.198804
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Esenyurt Şubesi",
+            "il": "İstanbul",
+            "ilce": "Esenyurt",
+            "koordinat": {
+                "lat": 40.911058,
+                "lon": 29.068839
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Eyüpsultan Şubesi",
+            "il": "İstanbul",
+            "ilce": "Eyüpsultan",
+            "koordinat": {
+                "lat": 41.105306,
+                "lon": 28.995718
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Fatih Şubesi",
+            "il": "İstanbul",
+            "ilce": "Fatih",
+            "koordinat": {
+                "lat": 41.135464,
+                "lon": 29.180512
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Gaziosmanpaşa Şubesi",
+            "il": "İstanbul",
+            "ilce": "Gaziosmanpaşa",
+            "koordinat": {
+                "lat": 41.046668,
+                "lon": 28.994489
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Güngören Şubesi",
+            "il": "İstanbul",
+            "ilce": "Güngören",
+            "koordinat": {
+                "lat": 41.17472,
+                "lon": 28.963604
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Kağıthane Şubesi",
+            "il": "İstanbul",
+            "ilce": "Kağıthane",
+            "koordinat": {
+                "lat": 41.160044,
+                "lon": 29.193975
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Kartal Şubesi",
+            "il": "İstanbul",
+            "ilce": "Kartal",
+            "koordinat": {
+                "lat": 40.822973,
+                "lon": 29.048198
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Küçükçekmece Şubesi",
+            "il": "İstanbul",
+            "ilce": "Küçükçekmece",
+            "koordinat": {
+                "lat": 40.983732,
+                "lon": 28.809808
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Maltepe Şubesi",
+            "il": "İstanbul",
+            "ilce": "Maltepe",
+            "koordinat": {
+                "lat": 40.957956,
+                "lon": 28.861313
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Pendik Şubesi",
+            "il": "İstanbul",
+            "ilce": "Pendik",
+            "koordinat": {
+                "lat": 40.837625,
+                "lon": 29.030821
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Sancaktepe Şubesi",
+            "il": "İstanbul",
+            "ilce": "Sancaktepe",
+            "koordinat": {
+                "lat": 41.195685,
+                "lon": 28.876873
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Silivri Şubesi",
+            "il": "İstanbul",
+            "ilce": "Silivri",
+            "koordinat": {
+                "lat": 40.867193,
+                "lon": 29.167412
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Sultanbeyli Şubesi",
+            "il": "İstanbul",
+            "ilce": "Sultanbeyli",
+            "koordinat": {
+                "lat": 41.092631,
+                "lon": 29.055787
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Sultangazi Şubesi",
+            "il": "İstanbul",
+            "ilce": "Sultangazi",
+            "koordinat": {
+                "lat": 41.163439,
+                "lon": 28.81469
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Şile Şubesi",
+            "il": "İstanbul",
+            "ilce": "Şile",
+            "koordinat": {
+                "lat": 41.166547,
+                "lon": 28.855891
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Şişli Şubesi",
+            "il": "İstanbul",
+            "ilce": "Şişli",
+            "koordinat": {
+                "lat": 40.9919,
+                "lon": 28.802259
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Tuzla Şubesi",
+            "il": "İstanbul",
+            "ilce": "Tuzla",
+            "koordinat": {
+                "lat": 41.166005,
+                "lon": 29.193835
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Ümraniye Şubesi",
+            "il": "İstanbul",
+            "ilce": "Ümraniye",
+            "koordinat": {
+                "lat": 41.172242,
+                "lon": 28.969993
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Zeytinburnu Şubesi",
+            "il": "İstanbul",
+            "ilce": "Zeytinburnu",
+            "koordinat": {
+                "lat": 41.004663,
+                "lon": 29.127562
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": false,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "İzmit Şubesi",
+            "il": "Kocaeli",
+            "ilce": "İzmit",
+            "koordinat": {
+                "lat": 40.7655,
+                "lon": 29.9406
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": true,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Altınova Şubesi",
+            "il": "Yalova",
+            "ilce": "Altınova",
+            "koordinat": {
+                "lat": 40.6959,
+                "lon": 29.5167
+            },
+            "atmSayisi": 2,
+            "erisilebilirlik": true,
+            "yogunluk": "dusuk",
+            "tip": "bireysel",
+            "komsuIllerIcin": true,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": false,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel"
+            ]
+        },
+        {
+            "isim": "Gebze Şubesi",
+            "il": "Kocaeli",
+            "ilce": "Gebze",
+            "koordinat": {
+                "lat": 40.801,
+                "lon": 29.438
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": false,
+            "yogunluk": "dusuk",
+            "tip": "karma",
+            "komsuIllerIcin": true,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ"
+            ]
+        },
+        {
+            "isim": "Çorlu Şubesi",
+            "il": "Tekirdağ",
+            "ilce": "Çorlu",
+            "koordinat": {
+                "lat": 41.160,
+                "lon": 27.799
+            },
+            "atmSayisi": 2,
+            "erisilebilirlik": true,
+            "yogunluk": "dusuk",
+            "tip": "bireysel",
+            "komsuIllerIcin": true,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": false,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel"
+            ]
+        },
+        {
+            "isim": "Lüleburgaz Şubesi",
+            "il": "Kırklareli",
+            "ilce": "Lüleburgaz",
+            "koordinat": {
+                "lat": 41.406,
+                "lon": 27.355
+            },
+            "atmSayisi": 3,
+            "erisilebilirlik": true,
+            "yogunluk": "orta",
+            "tip": "karma",
+            "komsuIllerIcin": true,
+            "parkYeri": true,
+            "uzunCalismaSaatleri": true,
+            "kolayUlasim": true,
+            "hizmetTurleri": [
+                "Bireysel",
+                "KOBİ",
+                "Yatırım"
+            ]
+        }
+    ]
+}
