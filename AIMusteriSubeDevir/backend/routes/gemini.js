@@ -1,14 +1,25 @@
 // Gerekli kütüphaneleri (modülleri) projemize dahil ediyoruz.
 const express = require("express"); // Node.js için web sunucusu ve API oluşturma çatısı.
 const router = express.Router();    // Express'in, gelen istekleri belirli dosyalara yönlendirmesini sağlayan modülü.
-const axios = require("axios");     // Dış API'lere (bizim durumumuzda Google Gemini) HTTP istekleri yapmak için kullanılan kütüphane.
+const axios = require("axios");     // HTTP istekleri için axios kütüphanesi
 const fs = require("fs");           // Sunucudaki dosya sistemine (dosya okuma/yazma) erişmemizi sağlayan Node.js modülü.
 require("dotenv").config();         // .env dosyasındaki hassas bilgileri (API anahtarı gibi) güvenli bir şekilde yönetmemizi sağlar.
 
-// .env dosyasından okuduğumuz Gemini API anahtarını bir değişkene atıyoruz.
+// ============================================
+// AI PROVIDER YAPILANDIRMASI
+// ============================================
+// .env dosyasından AI_PROVIDER değerini okuyoruz: 'gemini' veya 'mistral'
+const AI_PROVIDER = process.env.AI_PROVIDER || 'mistral';
+
+// Gemini API Credentials
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-// Gemini API'nin istek atacağımız tam URL adresini oluşturuyoruz.
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent`;
+const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+
+// Mistral AI Credentials
+const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
+const MISTRAL_URL = "https://api.mistral.ai/v1/chat/completions";
+
+console.log(`🤖 AI Provider: ${AI_PROVIDER.toUpperCase()}`);
 
 // İki coğrafi nokta arasındaki mesafeyi kilometre cinsinden hesaplar.
 // Bu fonksiyon, "en yakın" şubeyi bulurken kullanılır.
@@ -25,6 +36,85 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
 }
 
 /**
+ * Gemini AI'ya istek gönderir
+ * @param {string} prompt - AI'ya gönderilecek prompt
+ * @returns {Promise<string>} - AI'dan dönen yanıt
+ */
+async function callGeminiAPI(prompt) {
+    const response = await axios.post(
+        GEMINI_URL,
+        {
+            contents: [
+                {
+                    parts: [
+                        {
+                            text: prompt
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-goog-api-key': GEMINI_API_KEY
+            },
+            timeout: 60000
+        }
+    );
+    
+    return response.data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+}
+
+/**
+ * Mistral AI'ya istek gönderir
+ * @param {string} prompt - AI'ya gönderilecek prompt
+ * @returns {Promise<string>} - AI'dan dönen yanıt
+ */
+async function callMistralAPI(prompt) {
+    const response = await axios.post(
+        MISTRAL_URL,
+        {
+            model: "mistral-large-latest",
+            messages: [
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ],
+            temperature: 0.7,
+            max_tokens: 1000
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${MISTRAL_API_KEY}`
+            },
+            timeout: 60000
+        }
+    );
+    
+    return response.data?.choices?.[0]?.message?.content?.trim();
+}
+
+/**
+ * Seçilen AI provider'a göre istek gönderir
+ * @param {string} prompt - AI'ya gönderilecek prompt
+ * @returns {Promise<string>} - AI'dan dönen yanıt
+ */
+async function callAI(prompt) {
+    console.log(`🚀 ${AI_PROVIDER.toUpperCase()} API'ye İstek Atılıyor...`);
+    
+    if (AI_PROVIDER === 'gemini') {
+        return await callGeminiAPI(prompt);
+    } else if (AI_PROVIDER === 'mistral') {
+        return await callMistralAPI(prompt);
+    } else {
+        throw new Error(`Geçersiz AI Provider: ${AI_PROVIDER}. 'gemini' veya 'mistral' seçiniz.`);
+    }
+}
+
+/**
  * Bir şubenin, verilen seçim kriterlerinden en az birine uyup uymadığını kontrol eder.
  * @param {object} sube - Kontrol edilecek şube objesi.
  * @param {string[]} secimler - Kullanıcının tercihleri.
@@ -35,12 +125,15 @@ function enAzBirKritereUyuyorMu(sube, secimler) {
     if (!secimler || secimler.length === 0) return true;
     // || (VEYA) operatörü sayesinde, koşullardan herhangi birinin doğru olması yeterlidir.
     return (
-        (secimler.includes('ATM Yoğunluğu Az') && sube.atmSayisi <= 3) ||
-        (secimler.includes('Engelli Erişimi Var') && sube.erisilebilirlik === true) ||
-        (secimler.includes('Yoğunluk Düşük') && sube.yogunluk === 'dusuk') ||
+        (secimler.includes('ATM Yoğunluğu Düşük') && sube.atmSayisi <= 3) ||
+        (secimler.includes('Engelli Erişimi Mevcut') && sube.erisilebilirlik === true) ||
+        (secimler.includes('Şube Yoğunluğu Düşük') && sube.yogunluk === 'dusuk') ||
         (secimler.includes('Park Yeri Mevcut') && sube.parkYeri === true) ||
         (secimler.includes('Uzun Çalışma Saatleri') && sube.uzunCalismaSaatleri === true) ||
-        (secimler.includes('Kolay Ulaşım') && sube.kolayUlasim === true)
+        (secimler.includes('Kolay Ulaşım') && sube.kolayUlasim === true) ||
+        (secimler.includes('Bireysel Bankacılık Hizmeti') && sube.hizmetTurleri && sube.hizmetTurleri.includes('Bireysel')) ||
+        (secimler.includes('Kurumsal Bankacılık Hizmeti') && sube.hizmetTurleri && sube.hizmetTurleri.includes('Kurumsal')) ||
+        (secimler.includes('Kobi Bankacılığı Hizmeti') && sube.hizmetTurleri && sube.hizmetTurleri.includes('KOBİ'))
     );
 }
 
@@ -57,12 +150,15 @@ function tumKriterlereUyuyorMu(sube, secimler) {
     // (!secimler.includes(...) || ...) yapısı şu anlama gelir:
     // "Eğer bu kriter seçilmemişse, bu koşulu geçmiş say (true). Eğer seçilmişse, o zaman şubenin özelliğinin de doğru olması gerekir."
     return (
-        (!secimler.includes('ATM Yoğunluğu Az') || sube.atmSayisi <= 3) &&
-        (!secimler.includes('Engelli Erişimi Var') || sube.erisilebilirlik === true) &&
-        (!secimler.includes('Yoğunluk Düşük') || sube.yogunluk === 'dusuk') &&
+        (!secimler.includes('ATM Yoğunluğu Düşük') || sube.atmSayisi <= 3) &&
+        (!secimler.includes('Engelli Erişimi Mevcut') || sube.erisilebilirlik === true) &&
+        (!secimler.includes('Şube Yoğunluğu Düşük') || sube.yogunluk === 'dusuk') &&
         (!secimler.includes('Park Yeri Mevcut') || sube.parkYeri === true) &&
         (!secimler.includes('Uzun Çalışma Saatleri') || sube.uzunCalismaSaatleri === true) &&
-        (!secimler.includes('Kolay Ulaşım') || sube.kolayUlasim === true)
+        (!secimler.includes('Kolay Ulaşım') || sube.kolayUlasim === true) &&
+        (!secimler.includes('Bireysel Bankacılık Hizmeti') || (sube.hizmetTurleri && sube.hizmetTurleri.includes('Bireysel'))) &&
+        (!secimler.includes('Kurumsal Bankacılık Hizmeti') || (sube.hizmetTurleri && sube.hizmetTurleri.includes('Kurumsal'))) &&
+        (!secimler.includes('Kobi Bankacılığı Hizmeti') || (sube.hizmetTurleri && sube.hizmetTurleri.includes('KOBİ')))
     );
 }
 
@@ -77,17 +173,43 @@ router.post("/", async (req, res) => {
     // Hata yönetimi için try-catch bloğu kullanıyoruz.
     // try içerisindeki kodda bir hata olursa program çökmez, catch bloğu çalışır.
     try {
+        const currentApiKey = AI_PROVIDER === 'gemini' ? GEMINI_API_KEY : MISTRAL_API_KEY;
+        console.log(`👉 1. ${AI_PROVIDER.toUpperCase()} API Anahtarı:`, currentApiKey ? "YÜKLÜ ✅" : "BULUNAMADI! ❌");
+        
         // 'subeler.json' dosyasını senkron olarak oku, içeriğini utf-8 formatında metin olarak al ve JSON.parse ile JavaScript objesine çevir.
         const subeVerisi = JSON.parse(fs.readFileSync('subeler.json', 'utf-8'));
         const tumSubeler = subeVerisi.subeler; // JSON dosyasındaki "subeler" dizisini al.
 
         // Müşterinin şu anki şubesini, ismine göre tüm şubeler listesinden bul. Koordinatlarını almak için bu gerekli.
         const kullaniciSubesi = tumSubeler.find(s => s.isim === konum);
+        
+        console.log("👉 2. Kullanıcı Şubesi Bulundu mu?:", kullaniciSubesi ? `${kullaniciSubesi.isim} ✅` : "HAYIR! ❌");
+        console.log("👉 3. İl:", il, "| Seçimler:", secimler.length, "adet");
 
         // Eğer müşterinin belirttiği mevcut şube verilerimizde bulunamazsa, 404 (Not Found) hatası döndür ve işlemi sonlandır.
         if (!kullaniciSubesi) {
             return res.status(404).json({ mesaj: 'Mevcut şube bulunamadı.' });
         }
+
+        // --- EN YAKIN ŞUBE HESAPLAMASI (TERCİHLERDEN BAĞIMSIZ - TÜM ŞUBELER) ---
+        const tumCografiSubeler = tumSubeler.filter(s =>
+            (s.il === il || s.komsuIllerIcin === true) && s.isim !== konum
+        );
+        
+        const enYakinTumSubelerden = tumCografiSubeler.map(s => ({
+            ...s,
+            mesafe: haversineDistance(
+                kullaniciSubesi.koordinat.lat,
+                kullaniciSubesi.koordinat.lon,
+                s.koordinat.lat,
+                s.koordinat.lon
+            )
+        })).sort((a, b) => a.mesafe - b.mesafe)[0];
+        
+        const enYakinSube = enYakinTumSubelerden ? enYakinTumSubelerden.isim : null;
+        const enYakinMesafe = enYakinTumSubelerden ? enYakinTumSubelerden.mesafe : null;
+        
+        console.log(`📍 EN YAKIN ŞUBE (tüm şubeler arasından): ${enYakinSube} (${enYakinMesafe?.toFixed(1)} km)`);
 
         // --- AKILLI FİLTRELEME HUNİSİ BAŞLANGICI ---
 
@@ -128,93 +250,243 @@ router.post("/", async (req, res) => {
 
         // --- AKILLI FİLTRELEME HUNİSİ SONU ---
 
-        // PROMPT BOYUTUNU SINIRLAMA: En fazla 10 şube gönder
-        if (adaylar.length > 10) {
-            adaylar = adaylar.slice(0, 10);
+        // ÖNCELİKLENDİRME: Mesafe ve tercih skoruna göre sırala
+        const skorluAdaylar = adaylar.map(sube => {
+            const mesafe = haversineDistance(
+                kullaniciSubesi.koordinat.lat, 
+                kullaniciSubesi.koordinat.lon,
+                sube.koordinat.lat, 
+                sube.koordinat.lon
+            );
+            
+            // MÜKEMMEL OPTİMİZE EDİLMİŞ SKOR HESAPLAMA SİSTEMİ (0-100 arası)
+            let skor = 0;
+            
+            // 1. MESAFE SKORU - Sürekli (Linear) Azalan Skor, Her KM Önemli - %30 ağırlık
+            // 0 km = 30 puan, 50 km = 0 puan (linear interpolasyon)
+            const maxMesafe = 50;
+            const mesafePuani = mesafe <= maxMesafe ? 30 * (1 - (mesafe / maxMesafe)) : 0;
+            skor += mesafePuani;
+            
+            // 2. TERCİH EŞLEŞME SKORU - Her kriterin eşit ağırlığı - %40 ağırlık
+            const eslesenTercihSayisi = secimler.filter(tercih => {
+                if (tercih === 'ATM Yoğunluğu Düşük' && sube.atmSayisi <= 3) return true;
+                if (tercih === 'Engelli Erişimi Mevcut' && sube.erisilebilirlik) return true;
+                if (tercih === 'Şube Yoğunluğu Düşük' && sube.yogunluk === 'dusuk') return true;
+                if (tercih === 'Park Yeri Mevcut' && sube.parkYeri) return true;
+                if (tercih === 'Uzun Çalışma Saatleri' && sube.uzunCalismaSaatleri) return true;
+                if (tercih === 'Kolay Ulaşım' && sube.kolayUlasim) return true;
+                if (tercih === 'Bireysel Bankacılık Hizmeti' && sube.hizmetTurleri && sube.hizmetTurleri.includes('Bireysel')) return true;
+                if (tercih === 'Kurumsal Bankacılık Hizmeti' && sube.hizmetTurleri && sube.hizmetTurleri.includes('Kurumsal')) return true;
+                if (tercih === 'Kobi Bankacılığı Hizmeti' && sube.hizmetTurleri && sube.hizmetTurleri.includes('KOBİ')) return true;
+                return false;
+            }).length;
+            
+            const tercihPuani = secimler.length > 0 ? (eslesenTercihSayisi / secimler.length) * 40 : 20;
+            skor += tercihPuani;
+            
+            // 3. ÖNCELİK SIRASI BONUSU - Kademeli Azalan Bonus Puanları - %30 ağırlık
+            // İlk seçimden son seçime doğru bonus puanları azalır
+            let oncelikBonusu = 0;
+            const oncelikBonuslari = [20, 15, 10, 7]; // 1., 2., 3., 4. tercih için bonus puanları
+            
+            secimler.forEach((tercih, index) => {
+                let eslesmeVar = false;
+                
+                if (tercih === 'ATM Yoğunluğu Düşük' && sube.atmSayisi <= 3) eslesmeVar = true;
+                if (tercih === 'Engelli Erişimi Mevcut' && sube.erisilebilirlik) eslesmeVar = true;
+                if (tercih === 'Şube Yoğunluğu Düşük' && sube.yogunluk === 'dusuk') eslesmeVar = true;
+                if (tercih === 'Park Yeri Mevcut' && sube.parkYeri) eslesmeVar = true;
+                if (tercih === 'Uzun Çalışma Saatleri' && sube.uzunCalismaSaatleri) eslesmeVar = true;
+                if (tercih === 'Kolay Ulaşım' && sube.kolayUlasim) eslesmeVar = true;
+                if (tercih === 'Bireysel Bankacılık Hizmeti' && sube.hizmetTurleri && sube.hizmetTurleri.includes('Bireysel')) eslesmeVar = true;
+                if (tercih === 'Kurumsal Bankacılık Hizmeti' && sube.hizmetTurleri && sube.hizmetTurleri.includes('Kurumsal')) eslesmeVar = true;
+                if (tercih === 'Kobi Bankacılığı Hizmeti' && sube.hizmetTurleri && sube.hizmetTurleri.includes('KOBİ')) eslesmeVar = true;
+                
+                if (eslesmeVar && index < oncelikBonuslari.length) {
+                    oncelikBonusu += oncelikBonuslari[index];
+                }
+            });
+            
+            skor += oncelikBonusu;
+            
+            return { 
+                ...sube, 
+                mesafe, 
+                skor,
+                skorDetay: {
+                    mesafePuani: mesafePuani.toFixed(1),
+                    tercihPuani: tercihPuani.toFixed(1),
+                    oncelikBonusu: oncelikBonusu.toFixed(1)
+                }
+            };
+        });
+
+        // Skora göre sırala (en yüksek skor önce)
+        // Beraberlik durumunda mesafeye göre sırala (yakın olan kazanır)
+        skorluAdaylar.sort((a, b) => {
+            const skorFarki = b.skor - a.skor;
+            // Eğer skorlar çok yakınsa (0.5 puan farktan az), mesafeye göre karar ver
+            if (Math.abs(skorFarki) < 0.5) {
+                return a.mesafe - b.mesafe;
+            }
+            return skorFarki;
+        });
+
+        // EN İYİ 5 ŞUBE'Yİ SEÇ
+        adaylar = skorluAdaylar.slice(0, 5);
+
+        console.log("👉 4. Aday Şube Sayısı:", adaylar.length);
+        console.log("📊 Skor Dağılımı (Mesafe + Tercih + Öncelik Bonusu):");
+        adaylar.forEach(s => {
+            console.log(`   ${s.isim}: ${s.skor.toFixed(1)} puan (Mesafe: ${s.skorDetay.mesafePuani}p, Tercih: ${s.skorDetay.tercihPuani}p, Öncelik: ${s.skorDetay.oncelikBonusu}p) - ${s.mesafe.toFixed(1)}km`);
+        });
+        
+        // Adaylar içindeki en yakın şubeyi bul
+        const adayIcindeEnYakin = adaylar.length > 0 ? adaylar.reduce((enYakin, sube) => 
+            sube.mesafe < enYakin.mesafe ? sube : enYakin
+        ) : null;
+        
+        if (adayIcindeEnYakin) {
+            console.log(`🎯 Adaylar içinde en yakın: ${adayIcindeEnYakin.isim} (${adayIcindeEnYakin.mesafe.toFixed(1)} km)`);
         }
 
-        // Gemini'ye gönderilecek şube listesini okunabilir bir metne çeviriyoruz.
+        // AI'ye gönderilecek şube listesini ZENGİNLEŞTİRİLMİŞ FORMATTA hazırlıyoruz
         const promptAdayMetni = adaylar.map((s, i) =>
-            `${i + 1}. ${s.isim} | ATM: ${s.atmSayisi} | Erişilebilirlik: ${s.erisilebilirlik ? 'Var' : 'Yok'} | Yoğunluk: ${s.yogunluk} | Park Yeri: ${s.parkYeri ? 'Var' : 'Yok'} | Uzun Çalışma: ${s.uzunCalismaSaatleri ? 'Var' : 'Yok'} | Kolay Ulaşım: ${s.kolayUlasim ? 'Var' : 'Yok'}`
-        ).join("\n"); // Her şubeyi yeni bir satıra yaz.
+            `${i + 1}. ${s.isim}
+   - Lokasyon: ${s.il} / ${s.ilce}
+   - Mesafe: ${s.mesafe.toFixed(1)} km
+   - Tip: ${s.tip}
+   - Hizmet Türleri: ${s.hizmetTurleri.join(', ')}
+   - Özellikler:
+     * ATM Sayısı: ${s.atmSayisi}
+     * Yoğunluk: ${s.yogunluk}
+     * Erişilebilirlik: ${s.erisilebilirlik ? 'Var' : 'Yok'}
+     * Park Yeri: ${s.parkYeri ? 'Var' : 'Yok'}
+     * Uzun Çalışma Saatleri: ${s.uzunCalismaSaatleri ? 'Var' : 'Yok'}
+     * Kolay Ulaşım: ${s.kolayUlasim ? 'Var' : 'Yok'}
+   - Uygunluk Skoru: ${s.skor.toFixed(1)}/100 (Mesafe: ${s.skorDetay.mesafePuani}, Tercih: ${s.skorDetay.tercihPuani}, Öncelik Bonusu: ${s.skorDetay.oncelikBonusu})`
+        ).join("\n\n");
 
-        // Yapay zekaya (Gemini) göndereceğimiz komut metnini (prompt) oluşturuyoruz.
+        // Yapay zekaya göndereceğimiz komut metnini (prompt) oluşturuyoruz.
         // Bu, yapay zekadan ne istediğimizi net bir şekilde belirttiğimiz kısımdır.
         const prompt = `
-            Bir banka müşterisinin mevcut şubesi: ${konum}. Müşterinin bulunduğu il: ${il}.
-            Müşterinin yeni bir şube için tercihleri önem sırasına göre şunlardır:
-            ${secimler.map((t, i) => `${i + 1}. ${t}`).join('\n')}
+## MÜŞTERİ PROFİLİ
+- Mevcut Şube: ${konum}
+- Lokasyon: ${il} / ${kullaniciSubesi.ilce}
+- Koordinatlar: ${kullaniciSubesi.koordinat.lat}, ${kullaniciSubesi.koordinat.lon}
 
-            Aşağıdaki "Aday Şube Listesi" içinden, müşterinin tercihlerini ve mevcut şubesine olan mesafeyi göz önünde bulundurarak EN UYGUN tek bir şubeyi seç ve nedenini açıkla.
+## ⭐ TERCİH ÖNCELİK SIRALAMASI (Yukarıdan aşağıya önem sırası)
+${secimler.length > 0 ? secimler.map((t, i) => {
+    const oncelikEtiketi = ['🥇 1. ÖNCELİK', '🥈 2. ÖNCELİK', '🥉 3. ÖNCELİK', '4. ÖNCELİK'];
+    return `${oncelikEtiketi[i] || `${i + 1}. ÖNCELİK`}: ${t}`;
+}).join('\n') : 'Kullanıcı özel tercih belirtmedi (tüm şubeler eşit değerlendirilecek)'}
 
-            Aday Şube Listesi:
-            ${promptAdayMetni}
+## EN UYGUN 5 ADAY ŞUBE (Tercih filtreleme ve skorlamaya göre seçilmiş)
+${promptAdayMetni}
 
-            Cevabın SADECE şu formatta olmalı, başka hiçbir şey ekleme:
-            ŞUBE_ADI
-            AÇIKLAMA: (Neden bu şubeyi önerdin? Hangi önemli tercihlere uyuyor? Mesafeyi nasıl dikkate aldın? Kısa ve net ol, en fazla 2-3 cümle.)
+⚠️ **ÖNEMLİ NOT:** Yukarıdaki 5 şube, tüm şubeler arasından müşteri tercihlerine göre filtrelenerek seçilmiştir. Daha fazla şube var ancak bunlar tercihlere uygun değil. Bu 5 aday içinde en yakın: **${adayIcindeEnYakin?.isim || 'Belirsiz'}** (${adayIcindeEnYakin?.mesafe.toFixed(1) || '?'} km)
+
+## 🎯 GÖREV
+Yukarıdaki **5 ADAY** arasından (tüm şubeler değil!), müşterinin **TERCİH ÖNCELİK SIRALAMASI**'na göre **EN UYGUN TEK BİR** şubeyi seç.
+
+### ⚠️ KRİTİK KURALLAR:
+1. **1. ÖNCELİK (🥇) EN ÖNEMLİDİR**: Müşterinin birinci tercihi mutlaka ön planda tutulmalıdır
+2. **ÖNCELİK SIRASI HAYATİDİR**: İkinci, üçüncü ve dördüncü tercihler de sırasıyla değerlendirilmelidir
+3. **MESAFE BİR FAKTÖRDÜR AMA TEK FAKTÖR DEĞİLDİR**: Çok uzak (>30km) şubeler dezavantajlı AMA yakın olmak tek başına yeterli değil
+4. **SKOR BİR REHBERDİR**: Uygunluk skorları iyi bir başlangıç noktasıdır ama kendi analizini mutlaka yap
+5. **DENGELİ DEĞERLENDİRME**: Öncelikler + Mesafe + Hizmet Türleri üçgeninde en dengeli çözümü bul
+
+### ⚠️ CEVAP FORMATI (KATIYETLE UYULMASI GEREKEN):
+ŞUBE_ADI
+AÇIKLAMA: [SADECE 1 KISA CÜMLE - Maksimum 15-20 kelime - Hangi önceliği karşılıyor kısaca belirt. "Tek şube" gibi ifadeler KULLANMA]
+
+ÖRNEK:
+Kadıköy Şubesi
+AÇIKLAMA: En önemli tercihleriniz olan park yeri ve düşük yoğunluk mevcut, ayrıca adaylar içinde en yakın.
         `;
 
-        // Hazırladığımız prompt'u ve veri yapısını axios ile Gemini API'ye POST isteği olarak gönderiyoruz.
-        // 'await' sayesinde, API'den cevap gelene kadar kodun çalışması burada bekler.
-        const response = await axios.post(
-            GEMINI_URL,
-            { contents: [{ parts: [{ text: prompt }] }] },
-            { 
-                headers: { 
-                    "Content-Type": "application/json",
-                    "X-goog-api-key": GEMINI_API_KEY
-                } 
-            }
-        );
-
-        // Gemini'den gelen cevabın içindeki asıl metin kısmına güvenli bir şekilde erişiyoruz.
-        // ?. (optional chaining) operatörü, eğer bir ara değer (örn: candidates) yoksa hata vermek yerine undefined döndürür.
-        const replyRaw = response.data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+        console.log("👉 5. AI API'ye İstek Atılıyor... 🚀");
+        
+        // Seçilen AI provider'a istek gönder
+        const replyRaw = await callAI(prompt);
+        
+        console.log(`👉 6. ${AI_PROVIDER.toUpperCase()} API'den Yanıt Başarıyla Geldi! ✅`);
+        console.log(`📝 ${AI_PROVIDER.toUpperCase()} Yanıtı (ilk 100 karakter):`, replyRaw?.substring(0, 100) + "...");
 
         // Eğer yapay zekadan bir cevap alınamadıysa, 500 (Internal Server Error) hatası döndür.
         if (!replyRaw) {
+            console.log("❌ AI yanıtı boş!");
             return res.status(500).json({ mesaj: "Yapay zekâ yanıtı alınamadı." });
         }
 
+        // BOLD İŞARETLERİNİ TEMİZLE (**, * karakterlerini kaldır)
+        // Mistral AI ve Gemini bazen markdown formatında cevap verebilir
+        const cleanedReply = replyRaw.replace(/\*\*/g, '').replace(/\*/g, '');
+
         // Yapay zekanın cevabını, belirlediğimiz "AÇIKLAMA:" delimiter'ına göre bölerek şube adını ve açıklama metnini ayırıyoruz.
-        const [oneri, ...aciklamaArr] = replyRaw.split(/\s*AÇIKLAMA:\s*/i);
+        const [oneri, ...aciklamaArr] = cleanedReply.split(/\s*AÇIKLAMA:\s*/i);
         const aciklamaGemini = aciklamaArr.join(" ").trim();
 
-        // --- EN YAKIN ŞUBE HESAPLAMASI ---
-        // Yapay zeka önerisine ek olarak, aynı aday listesi üzerinden "fiziksel olarak en yakın" şubeyi de hesaplayıp kullanıcıya sunuyoruz.
-        let minMesafe = Infinity; // Başlangıçta minimum mesafeyi sonsuz olarak ayarlıyoruz.
-        let enYakinSube = null;   // En yakın şubenin adını tutacak değişken.
-        if (adaylar.length > 0) {
-            adaylar.forEach((sube) => {
-                // Her bir aday şube ile kullanıcının mevcut şubesi arasındaki mesafeyi hesapla.
-                const mesafe = haversineDistance(
-                    kullaniciSubesi.koordinat.lat, kullaniciSubesi.koordinat.lon,
-                    sube.koordinat.lat, sube.koordinat.lon
-                );
-                // Eğer hesaplanan mesafe o anki minimum mesafeden daha küçükse, yeni minimum mesafe ve en yakın şube bu olur.
-                if (mesafe < minMesafe) {
-                    minMesafe = mesafe;
-                    enYakinSube = sube.isim;
-                }
-            });
-        } else {
-            // Eğer hiçbir aday şube bulunamadıysa (çok nadir bir durum), bunu belirt.
-            enYakinSube = "Uygun aday bulunamadı";
-        }
-
+        console.log("👉 7. Başarılı Yanıt Gönderiliyor:", oneri.trim());
+        
         // Sonucu istemciye (frontend'e) JSON formatında gönderiyoruz.
         res.json({
-            oneri: oneri.trim(), // Gemini'nin önerdiği şube adı.
+            oneri: oneri.trim(), // Gemini AI'nin önerdiği şube adı.
             aciklama: aciklamaGemini || aciklama, // Eğer Gemini bir açıklama göndermezse, bizim oluşturduğumuz standart açıklamayı kullan.
             enYakin: enYakinSube // Sadece mesafeye göre en yakın olan şube.
         });
 
     } catch (error) {
         // 'try' bloğunda herhangi bir hata olursa (örn: API'ye ulaşılamadı, dosya okunamadı), bu blok çalışır.
-        // Hatayı sunucu konsoluna yazdırarak bizim görmemizi sağlar.
-        console.error("Gemini API rotasında hata:", error.response ? error.response.data : error.message);
-        // İstemciye de sunucu tarafında bir hata oluştuğunu belirten genel bir mesaj gönderir.
+        console.log("\n❌❌❌ KRİTİK HATA BURADA PATLADI: ❌❌❌");
+        console.error("Hata Mesajı:", error.message);
+        console.error("Hata Tipi:", error.constructor.name);
+        console.error("Tam Hata Detayı:", error);
+        if (error.response) {
+            console.error("API Yanıt Hatası:", error.response.data);
+        }
+        console.log("❌❌❌ HATA DETAYI BİTTİ ❌❌❌\n");
+        
+        // FALLBACK: API hatası durumunda mock response (geliştirme/test için)
+        console.warn("⚠️ API hatası - Mock response döndürülüyor (TEST MODU)");
+        
+        try {
+            // En yakın şubeyi hesapla (API olmadan da çalışabilir)
+            const subeVerisi = JSON.parse(fs.readFileSync('subeler.json', 'utf-8'));
+            const tumSubeler = subeVerisi.subeler;
+            const kullaniciSubesi = tumSubeler.find(s => s.isim === req.body.konum);
+            
+            if (kullaniciSubesi) {
+                const cografiUygunSubeler = tumSubeler.filter(s =>
+                    (s.il === req.body.il || s.komsuIllerIcin === true) && s.isim !== req.body.konum
+                );
+                
+                let minMesafe = Infinity;
+                let enYakinSube = null;
+                cografiUygunSubeler.forEach((sube) => {
+                    const mesafe = haversineDistance(
+                        kullaniciSubesi.koordinat.lat, kullaniciSubesi.koordinat.lon,
+                        sube.koordinat.lat, sube.koordinat.lon
+                    );
+                    if (mesafe < minMesafe) {
+                        minMesafe = mesafe;
+                        enYakinSube = sube.isim;
+                    }
+                });
+                
+                // Mock AI response döndür
+                return res.json({
+                    oneri: enYakinSube || "Merkez Şube",
+                    aciklama: "⚠️ TEST MODU: Bu mesafe tabanlı otomatik öneridir. Yapay zeka önerileri için Gemini API hatası oluştu.",
+                    enYakin: enYakinSube || "Merkez Şube"
+                });
+            }
+        } catch (fallbackError) {
+            console.error("Fallback hatası:", fallbackError.message);
+        }
+        
+        // Eğer hiçbir şey bulunamazsa genel hata mesajı
         res.status(500).json({ mesaj: "Sunucu tarafında bir hata oluştu. API çağrısı başarısız." });
     }
 });

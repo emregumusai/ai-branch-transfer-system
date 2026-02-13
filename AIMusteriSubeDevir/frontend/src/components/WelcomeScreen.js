@@ -38,9 +38,15 @@ const WelcomeScreen = ({ adSoyad, sube: ilkSube, girisBilgisi }) => {
     const [siralaUyarisi, setSiralaUyarisi] = useState('');
 
     const tercihOpsiyonlari = [
-        'ATM Yoğunluğu Az', 'Engelli Erişimi Var', 'Yoğunluk Düşük',
-        'Park Yeri Mevcut', 'Uzun Çalışma Saatleri', 'Kolay Ulaşım',
-        'Bireysel Bankacılık Hizmeti', 'Kurumsal Bankacılık Hizmeti', 'Kobi Bankacılığı Hizmeti'
+        'ATM Yoğunluğu Düşük',
+        'Şube Yoğunluğu Düşük',
+        'Engelli Erişimi Mevcut',
+        'Park Yeri Mevcut',
+        'Kolay Ulaşım',
+        'Uzun Çalışma Saatleri',
+        'Bireysel Bankacılık Hizmeti',
+        'Kurumsal Bankacılık Hizmeti',
+        'Kobi Bankacılığı Hizmeti'
     ];
 
     useEffect(() => {
