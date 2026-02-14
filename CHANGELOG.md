@@ -7,6 +7,81 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-02-14
+
+### 🎨 Added
+
+#### UI/UX Enhancements
+- **Material-UI Design System** - Complete migration to MUI v7.3.8 components
+- **Banking Professional Theme** - Primary blue (#1E88E5), secondary purple, success green
+- **Glassmorphism Effects** - Modern backdrop-filter blur effects on modal and cards
+- **Toast Notification System** - Context-based provider replacing static Alerts
+  - Success, error, warning, info variants
+  - Auto-dismiss after 5 seconds
+  - Manual close button
+  - Multiple toast stacking support
+- **Responsive Design** - Enhanced mobile and tablet viewport optimization
+- **Professional Animations** - Smooth transitions with cubic-bezier easing
+- **Feature-based Architecture** - Components organized into `common/` and `features/` folders
+
+#### Technical Features
+- **StrictModeDroppable Wrapper** - Custom component for React 18/19 compatibility
+- **Layout Ready Gates** - `requestAnimationFrame` based rendering control
+- **Redux Toolkit Integration** - Centralized state management with proper slices
+- **Theme Configuration** - Centralized theme file with component overrides
+- **Clean Architecture** - Backend reorganized with services, controllers, repositories
+
+### 🐛 Fixed
+
+#### Critical Bugs
+- **Drag-Drop Position Offset** - Fixed coordinate calculation issues in React 18 Strict Mode
+  - Root cause: Double-rendering affecting @hello-pangea/dnd sensors
+  - Solution: StrictModeDroppable + layout-ready gates + disable Dialog transforms
+- **Dialog Transform Conflicts** - Removed portal and transition side-effects
+- **TextField Label Overlap** - Added background color and padding on autofill
+- **Button Hover Override** - Applied `!important` to gradient hover states
+- **Modal Header Gaps** - Fixed white space with margin/padding adjustments
+- **Branch Transfer Auth Error** - Added `selectGirisBilgisi` Redux selector
+
+#### UI Fixes
+- Color harmony across all selection options (unified blue theme)
+- Edge-to-edge modal header gradient
+- Proper Paper elevation and shadows
+- Icon sizing and alignment
+
+### 🔄 Changed
+
+#### Breaking Changes
+- **Complete Visual Redesign** - Old inline styles replaced with MUI
+- **Color Scheme Migration** - Red (#be1e2d) → Banking Blue (#1E88E5)
+- **Component Architecture** - Flat structure → Feature-based folders
+
+#### Improvements
+- Alert components → Toast notifications (better UX)
+- Static success messages → Animated gradient panels
+- Inline drag-drop styles → MUI Box/Paper separation
+- Manual styling → Theme-based styling
+
+### 🗑️ Removed
+- Legacy red color scheme (#be1e2d)
+- All inline `style={{}}` objects from components
+- Static Alert components
+- Placeholder wrappers (drag-drop structure simplified)
+
+### 📸 Screenshots
+- Added comprehensive v1.0 vs v2.0 comparison in `docs/screenshots/`
+- Visual documentation for login, sorting, options, success screens
+- Toast notification examples
+
+### 📊 Statistics
+- **57 files changed**
+- **5,285 lines added**
+- **586 lines deleted**
+
+### 🔗 References
+- Issue #2: v2.0 Complete System Overhaul
+- PR #3: Premium UI & React 18 Compatibility
+
 ## [1.1.0] - 2026-02-13
 
 ### Added
