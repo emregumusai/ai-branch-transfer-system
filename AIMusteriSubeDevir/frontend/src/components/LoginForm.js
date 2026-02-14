@@ -1,134 +1,230 @@
+// Login Form Component (Refactored with MUI + Redux + Glassmorphism)
+// Giriş formu bileşeni (MUI + Redux + Glassmorphism ile refactor edilmiş)
+// User login form with Material-UI, Redux, and modern glass effects
+
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    Box,
+    Card,
+    CardContent,
+    TextField,
+    Typography,
+    Container
+} from '@mui/material';
+import { loginUser, selectIsLoading, selectError } from '../store/slices/authSlice';
 import WelcomeScreen from './WelcomeScreen';
+import Button from './common/Button';
+import ErrorAlert from './common/ErrorAlert';
 
+/**
+ * LoginForm Component
+ * Kullanıcı giriş formu
+ * User login form
+ */
 const LoginForm = () => {
+    // Local state
     const [girisBilgisi, setGirisBilgisi] = useState('');
-    const [kullanici, setKullanici] = useState(null);
-    const [hata, setHata] = useState('');
+    const [localError, setLocalError] = useState('');
 
+    // Redux state
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.user);
+    const isLoading = useSelector(selectIsLoading);
+    const error = useSelector(selectError);
+
+    /**
+     * Handle Login
+     * Giriş işlemini yönetir
+     */
     const handleLogin = async () => {
-        if (!girisBilgisi) {
-            setHata('Lütfen TC Kimlik No veya Kullanıcı Adınızı girin.');
+        setLocalError('');
+
+        // Validasyon
+        if (!girisBilgisi || girisBilgisi.trim() === '') {
+            setLocalError('Lütfen TC Kimlik No veya Kullanıcı Adınızı girin.');
             return;
         }
 
-        try {
-            const response = await axios.post('http://localhost:5000/giris', {
-                girisBilgisi: girisBilgisi
-            });
+        // Redux action dispatch
+        dispatch(loginUser(girisBilgisi));
+    };
 
-            if (response.data.basarili) {
-                setKullanici({
-                    adSoyad: response.data.adSoyad,
-                    sube: response.data.sube,
-                    girisBilgisi: girisBilgisi
-                });
-                setHata('');
-            } else {
-                setHata('Kullanıcı bulunamadı.');
-                setKullanici(null);
-            }
-        } catch (err) {
-            setHata('Sunucuya bağlanılamadı.');
+    /**
+     * Handle Enter Key
+     * Enter tuşu ile giriş
+     */
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleLogin();
         }
     };
 
-    if (kullanici) {
-        return (
-            <WelcomeScreen
-                adSoyad={kullanici.adSoyad}
-                sube={kullanici.sube}
-                girisBilgisi={kullanici.girisBilgisi}
-            />
-        );
+    // Kullanıcı giriş yapmışsa WelcomeScreen'i göster
+    // If user is logged in, show WelcomeScreen
+    if (user) {
+        return <WelcomeScreen />;
     }
 
     return (
-        <div style={styles.wrapper}>
-            <div style={styles.container}>
-                <img src="/logoo.jpg" alt="Logo" style={styles.logo} />
-                <h1 style={styles.title}>Yapay Zeka Destekli Müşteri Şube Devri</h1>
-                <label style={styles.label}>TC Kimlik No veya Müşteri No giriniz:</label>
-                <input
-                    type="text"
-                    placeholder="TC Kimlik No 11 hane, Müşteri No en az 3 karakter olmalıdır"
-                    value={girisBilgisi}
-                    onChange={(e) => setGirisBilgisi(e.target.value)}
-                    style={styles.input}
-                />
-                <button onClick={handleLogin} style={styles.button}>
-                    Giriş Yap
-                </button>
-                {hata && <p style={styles.error}>{hata}</p>}
-            </div>
-        </div>
-    );
-};
+        <Box
+            sx={{
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'linear-gradient(135deg, #1E88E5 0%, #6C63FF 50%, #42A5F5 100%)',
+                position: 'relative',
+                py: 4,
+                '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'linear-gradient(225deg, rgba(0, 211, 149, 0.1) 0%, rgba(255, 101, 132, 0.1) 100%)',
+                    pointerEvents: 'none'
+                }
+            }}
+        >
+            <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 1 }}>
+                <Card
+                    elevation={0}
+                    sx={{
+                        borderRadius: 4,
+                        backdropFilter: 'blur(40px) saturate(180%)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                        boxShadow: '0 8px 32px rgba(10, 37, 64, 0.2)'
+                    }}
+                >
+                    <CardContent sx={{ p: 5 }}>
+                        {/* Logo ve Başlık */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                mb: 4
+                            }}
+                        >
+                            {/* BankOfAI Logo */}
+                            <Box
+                                component="img"
+                                src="/BankOfAI.png"
+                                alt="BankOfAI Logo"
+                                sx={{
+                                    width: 120,
+                                    height: 120,
+                                    mb: 3,
+                                    borderRadius: 3,
+                                    boxShadow: '0 4px 16px rgba(10, 37, 64, 0.15)',
+                                    objectFit: 'contain',
+                                    background: '#fff',
+                                    p: 1
+                                }}
+                            />
 
-const styles = {
-    wrapper: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        //background: 'linear-gradient(135deg,#fff 0,#f2f2f2 100%)'
-    },
-    container: {
-        width: '100%',
-        maxWidth: '390px',
-        textAlign: 'center',
-        padding: '30px 18px 22px 18px',
-        border: '1px solid #e4e4e4',
-        borderRadius: '15px',
-        boxShadow: '0 3px 15px rgba(190,30,45,0.09), 0 1.5px 7px rgba(0,0,0,0.07)',
-        backgroundColor: 'rgba(255,255,255,0.98)', // kartın arka planı hafif transparan yapabilirsin
-        backdropFilter: 'blur(3.5px)', // şık bir blur efekti
-    },
-    logo: {
-        width: '75px',
-        marginBottom: '10px',
-        borderRadius: 8,
-        boxShadow: '0 1px 5px rgba(190,30,45,0.10)'
-    },
-    title: {
-        fontSize: '23px',
-        marginBottom: '19px',
-        color: '#be1e2d',
-        fontWeight: 700,
-        letterSpacing: '0.8px'
-    },
-    label: {
-        display: 'block',
-        marginBottom: '10px',
-        fontSize: '14.7px',
-        color: '#232323'
-    },
-    input: {
-        width: '100%',
-        padding: '10px',
-        marginBottom: '12px',
-        fontSize: '16px',
-        border: '1px solid #ccc',
-        borderRadius: '5px'
-    },
-    button: {
-        width: '100%',
-        padding: '10px',
-        backgroundColor: '#be1e2d',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '7px',
-        fontWeight: 600,
-        fontSize: 16,
-        cursor: 'pointer',
-        transition: 'background-color 0.3s'
-    },
-    error: {
-        color: '#be1e2d',
-        marginTop: '12px',
-        fontWeight: 500
-    }
+                            <Typography
+                                component="h1"
+                                variant="h4"
+                                sx={{
+                                    fontWeight: 700,
+                                    textAlign: 'center',
+                                    background: 'linear-gradient(135deg, #1E88E5 0%, #6C63FF 100%)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text',
+                                    mb: 1
+                                }}
+                            >
+                                AI Şube Devir Sistemi
+                            </Typography>
+
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    color: 'text.secondary',
+                                    textAlign: 'center',
+                                    fontWeight: 500
+                                }}
+                            >
+                                BankOfAI - Yapay Zeka Destekli Şube Yönetimi
+                            </Typography>
+                        </Box>
+
+                        {/* Hata Mesajları */}
+                        {(localError || error) && (
+                            <ErrorAlert
+                                message={localError || error}
+                                title="Giriş Hatası"
+                            />
+                        )}
+
+                        {/* Giriş Formu */}
+                        <Box component="form" noValidate>
+                            <TextField
+                                fullWidth
+                                label="TC Kimlik No veya Kullanıcı Adı"
+                                placeholder="11 haneli TC veya kullanıcı adınız"
+                                value={girisBilgisi}
+                                onChange={(e) => setGirisBilgisi(e.target.value)}
+                                onKeyPress={handleKeyPress}
+                                disabled={isLoading}
+                                margin="normal"
+                                autoFocus
+                                InputLabelProps={{ 
+                                    sx: { 
+                                        fontWeight: 600,
+                                        bgcolor: 'background.paper',
+                                        px: 0.5,
+                                        '&.MuiInputLabel-shrink': {
+                                            bgcolor: 'background.paper'
+                                        }
+                                    }
+                                }}
+                                helperText="TC Kimlik No 11 hane, Kullanıcı No en az 3 karakter olmalıdır"
+                                sx={{ mb: 3 }}
+                            />
+
+                            <Button
+                                fullWidth
+                                size="large"
+                                onClick={handleLogin}
+                                loading={isLoading}
+                                disabled={!girisBilgisi.trim()}
+                                sx={{
+                                    height: 50,
+                                    fontSize: '1rem',
+                                    fontWeight: 700,
+                                    background: 'linear-gradient(135deg, #1E88E5 0%, #6C63FF 100%)',
+                                    '&:hover': {
+                                        background: 'linear-gradient(135deg, #1565C0 0%, #4A3FD9 100%) !important',
+                                        transform: 'translateY(-2px)',
+                                        boxShadow: '0px 12px 24px rgba(30, 136, 229, 0.4)'
+                                    }
+                                }}
+                            >
+                                Giriş Yap
+                            </Button>
+                        </Box>
+
+                        {/* Alt Bilgi */}
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            textAlign="center"
+                            display="block"
+                            sx={{ mt: 3, fontWeight: 500 }}
+                        >
+                            🔒 Güvenli giriş için TC Kimlik No veya Kullanıcı Adınızı kullanın
+                        </Typography>
+                    </CardContent>
+                </Card>
+            </Container>
+        </Box>
+    );
 };
 
 export default LoginForm;
