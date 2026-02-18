@@ -12,19 +12,21 @@
 
 [🇹🇷 Türkçe](README.tr.md) | [📖 Changelog](CHANGELOG.md) | [🐛 Report Bug](../../issues) | [✨ Request Feature](../../issues)
 
+**Developed by Yunus Emre Gümüş**
+
 </div>
 
 ---
 
 ## 🌟 Highlights
 
-- 🧠 **Intelligent AI** - Powered by Mistral AI & Gemini for personalized branch matching
-- ✨ **Premium UX** - Glassmorphism design with Material-UI components
-- ⚡ **React 18 Ready** - Bug-free drag-and-drop with custom Strict Mode wrapper
-- 🔔 **Smart Feedback** - Context-based Toast notification system
-- 🎨 **Banking Theme** - Professional blue color palette (#1E88E5)
-- 📱 **Fully Responsive** - Optimized for all screen sizes
-- 🏗️ **Clean Architecture** - Scalable backend with layered design
+- **Intelligent AI** - Powered by Mistral AI & Gemini for personalized branch matching
+- **Premium UX** - Glassmorphism design with Material-UI components
+- **React 18 Ready** - Bug-free drag-and-drop with custom Strict Mode wrapper
+- **Smart Feedback** - Context-based Toast notification system
+- **Banking Theme** - Professional blue color palette (#1E88E5)
+- **Fully Responsive** - Optimized for all screen sizes
+- **Clean Architecture** - Scalable backend with layered design
 
 ---
 
@@ -271,11 +273,11 @@ export const theme = createTheme({
 
 ## 📚 Documentation
 
-- [📋 **Changelog**](CHANGELOG.md) - Version history and release notes
-- [🤝 **Contributing**](CONTRIBUTING.md) - How to contribute to the project
-- [🇹🇷 **Turkish README**](README.tr.md) - Türkçe dokümantasyon
-- [🐛 **Known Issues**](../../issues?q=is%3Aissue+is%3Aopen+label%3Abug) - Current bugs and limitations
-- [✨ **Feature Requests**](../../issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) - Planned features
+- [**Changelog**](CHANGELOG.md) - Version history and release notes
+- [**Contributing**](CONTRIBUTING.md) - How to contribute to the project
+- [**Turkish README**](README.tr.md) - Türkçe dokümantasyon
+- [**Known Issues**](../../issues?q=is%3Aissue+is%3Aopen+label%3Abug) - Current bugs and limitations
+- [**Feature Requests**](../../issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) - Planned features
 
 ---
 
@@ -339,13 +341,13 @@ chore: Maintenance
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-### 🎓 Free Usage
+### Free Usage
 - Personal projects
 - Educational purposes
 - Academic research
 - Non-commercial applications
 
-### 💼 Commercial Usage
+### Commercial Usage
 - Contact for licensing options
 - Enterprise support available
 
@@ -353,8 +355,10 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 👤 Author
 
-**Emre Gumus**
+**Yunus Emre Gümüş**
 - GitHub: [@emregumusai](https://github.com/emregumusai)
+- LinkedIn: [emregumusai](https://www.linkedin.com/in/emregumusai/)
+- Email: yunusemregumusofc@gmail.com
 - Repository: [ai-branch-transfer-system](https://github.com/emregumusai/ai-branch-transfer-system)
 
 ---
@@ -381,11 +385,11 @@ Made with ❤️ for the banking industry
 ### 💼 Commercial Usage
 **This software requires explicit permission for commercial use in banks, corporations, or enterprise applications.**
 
-📧 **Contact for Commercial Licensing:**
+**Contact for Commercial Licensing:**
 - GitHub: [@emregumusai](https://github.com/emregumusai)
 - **Please contact before implementing in production environments**
 
-⚖️ See [LICENSE](LICENSE) for complete terms and conditions.
+See [LICENSE](LICENSE) for complete terms and conditions.
 
 ## 🔒 Security Note
 
@@ -403,4 +407,10 @@ For questions, issues, or commercial licensing inquiries:
 
 ---
 
-**Made with ❤️ by Yunus Emre Gumus**
+<div align="center">
+
+**⭐ Star this repository if you find it helpful!**
+
+Made with ❤️ by **Yunus Emre Gümüş**
+
+</div>
