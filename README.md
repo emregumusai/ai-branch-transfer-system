@@ -372,21 +372,14 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-<div align="center">
+## 💼 Commercial Usage
 
-**⭐ Star this repository if you find it helpful!**
-
-[Report Bug](../../issues/new?template=bug_report.yml) · [Request Feature](../../issues/new?template=feature_request.yml) · [View Changelog](CHANGELOG.md)
-
-Made with ❤️ by **Yunus Emre Gümüş**
-
-</div>
-
-### 💼 Commercial Usage
 **This software requires explicit permission for commercial use in banks, corporations, or enterprise applications.**
 
 **Contact for Commercial Licensing:**
 - GitHub: [@emregumusai](https://github.com/emregumusai)
+- LinkedIn: [emregumusai](https://www.linkedin.com/in/emregumusai/)
+- Email: yunusemregumusofc@gmail.com
 - **Please contact before implementing in production environments**
 
 See [LICENSE](LICENSE) for complete terms and conditions.
@@ -402,5 +395,19 @@ This is a demonstration project. For production use:
 ## 📞 Support
 
 For questions, issues, or commercial licensing inquiries:
-- Open an issue on GitHub
-- Contact via GitHub profile
+- GitHub: [@emregumusai](https://github.com/emregumusai)
+- LinkedIn: [emregumusai](https://www.linkedin.com/in/emregumusai/)
+- Email: yunusemregumusofc@gmail.com
+- Open an issue on [GitHub Issues](../../issues)
+
+---
+
+<div align="center">
+
+**⭐ Star this repository if you find it helpful!**
+
+[Report Bug](../../issues/new?template=bug_report.yml) · [Request Feature](../../issues/new?template=feature_request.yml) · [View Changelog](CHANGELOG.md)
+
+Made with ❤️ by **Yunus Emre Gümüş**
+
+</div>
