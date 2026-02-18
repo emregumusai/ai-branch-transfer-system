@@ -378,7 +378,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 [Report Bug](../../issues/new?template=bug_report.yml) · [Request Feature](../../issues/new?template=feature_request.yml) · [View Changelog](CHANGELOG.md)
 
-Made with ❤️ for the banking industry
+Made with ❤️ by **Yunus Emre Gümüş**
 
 </div>
 
@@ -404,13 +404,3 @@ This is a demonstration project. For production use:
 For questions, issues, or commercial licensing inquiries:
 - Open an issue on GitHub
 - Contact via GitHub profile
-
----
-
-<div align="center">
-
-**⭐ Star this repository if you find it helpful!**
-
-Made with ❤️ by **Yunus Emre Gümüş**
-
-</div>
