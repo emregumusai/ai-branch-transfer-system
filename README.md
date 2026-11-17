@@ -341,16 +341,6 @@ chore: Maintenance
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-### Free Usage
-- Personal projects
-- Educational purposes
-- Academic research
-- Non-commercial applications
-
-### Commercial Usage
-- Contact for licensing options
-- Enterprise support available
-
 ---
 
 ## 👤 Author
@@ -372,18 +362,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-## 💼 Commercial Usage
-
-**This software requires explicit permission for commercial use in banks, corporations, or enterprise applications.**
-
-**Contact for Commercial Licensing:**
-- GitHub: [@emregumusai](https://github.com/emregumusai)
-- LinkedIn: [emregumusai](https://www.linkedin.com/in/emregumusai/)
-- Email: yunusemregumusofc@gmail.com
-- **Please contact before implementing in production environments**
-
-See [LICENSE](LICENSE) for complete terms and conditions.
-
 ## 🔒 Security Note
 
 This is a demonstration project. For production use:
@@ -394,12 +372,11 @@ This is a demonstration project. For production use:
 
 ## 📞 Support
 
-For questions, issues, or commercial licensing inquiries:
+For questions or issues:
 - GitHub: [@emregumusai](https://github.com/emregumusai)
 - LinkedIn: [emregumusai](https://www.linkedin.com/in/emregumusai/)
 - Email: yunusemregumusofc@gmail.com
 - Open an issue on [GitHub Issues](../../issues)
-
 
 ---
 
